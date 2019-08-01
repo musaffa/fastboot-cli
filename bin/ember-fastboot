@@ -41,6 +41,7 @@ var server = new FastBootAppServer({
   beforeMiddleware(app) {
     app.use((request, response, next) => {
       response.setHeader('Access-Control-Allow-Origin', process.env.HOST_NAME);
+      response.setHeader('Cache-Control', 'public, max-age=31536000');
       return next();
     });
 
