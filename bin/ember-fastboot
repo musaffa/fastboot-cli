@@ -7,6 +7,7 @@ process.title = 'ember-fastboot';
 var FastBootAppServer = require('fastboot-app-server');
 var RSVP = require('rsvp');
 var parseArgs = require('minimist');
+var fs = require('fs');
 
 var argOptions = {
   default: { port: 3000, host: '::' }
@@ -36,6 +37,7 @@ var notifier = {
 var server = new FastBootAppServer({
   distPath: distPath,
   notifier: notifier,
+  port: options.port,
   gzip: true,
 
   beforeMiddleware(app) {
@@ -63,4 +65,6 @@ var server = new FastBootAppServer({
 
 console.log('Booting Ember app...');
 
-server.start();
+server.start(function () {
+  fs.openSync('/tmp/app-initialized', 'w');
+});
