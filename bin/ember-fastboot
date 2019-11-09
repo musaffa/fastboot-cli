@@ -37,30 +37,7 @@ var notifier = {
 var server = new FastBootAppServer({
   distPath: distPath,
   notifier: notifier,
-  port: options.port,
-  gzip: true,
-
-  beforeMiddleware(app) {
-    app.use((request, response, next) => {
-      response.setHeader('Access-Control-Allow-Origin', process.env.HOST_NAME);
-      
-      if (['/index.html', '/sw.js'].some(path => request.path === path)) {
-        response.setHeader('Cache-Control', 'public, max-age=0');
-      } else {
-        response.setHeader('Cache-Control', 'public, max-age=31536000');
-      }
-      
-      return next();
-    });
-
-    app.use((request, response, next) => {
-      if (request.headers['x-forwarded-proto'] === 'https') {
-        return next();
-      } else {
-        return response.redirect(301, `https://${request.hostname}${request.url}`);
-      }
-    });
-  }
+  port: options.port
 });
 
 console.log('Booting Ember app...');
