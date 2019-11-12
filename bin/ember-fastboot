@@ -37,6 +37,7 @@ var notifier = {
 var server = new FastBootAppServer({
   distPath: distPath,
   notifier: notifier,
+  workerCount: process.env.FASTBOOT_WORKERS || 4,
   port: options.port
 });
 
